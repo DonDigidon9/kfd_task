@@ -31,7 +31,7 @@ int main() {
     string allowed[5] = {"13", "0234", "1", "01", "1"};
     bool change_flag = 0;
     srand(time(0));
-    cout << fixed << setprecision(2) << endl;
+    // cout << fixed << setprecision(2) << endl;
 
     while (answer == 0) {
         string request_from, request_to, number;
@@ -39,16 +39,18 @@ int main() {
         long double int_number;
         bool fl = 1;
         change_flag = 0;
-        cout << endl << "Текущий курс:" << endl << "RUB / USD = " << rub_to_usd << endl;
+        cout << endl << "Текущий курс:" << endl << "RUB / USD = 1 / " << rub_to_usd << endl;
         cout << "RUB / EURO = 1 / " << rub_to_euro << endl;
         cout << "USD / EURO = 1 / " << usd_to_euro << endl;
         cout << "USD / USDT = 1 / " << usd_to_usdt << endl;
         cout << "USD / BTC = 1 / " << usd_to_btc << endl;
-        cout << "Для запуска программы с начала в любой момент введите 'заново'" << endl;
-        cout << "Для завершения программы в любой момент введите 'закончить'" << endl << endl;
+        cout << "Для запуска программы с начала в любой момент введите 'again'" << endl;
+        cout << "Для завершения программы в любой момент введите 'end'" << endl << endl;
         cout << endl << "Ваш баланс:" << endl;
         for (int i = 0; i < 5; i++) {
-            cout << user_balance[i] << " " << mas[i] << endl;
+            if (user_balance[i] >= 1000000) {
+                cout << int(user_balance[i]) % 10000000 << " " << mas[i] << endl;
+            } else cout << user_balance[i] << " " << mas[i] << endl;
         }
         cout << endl << "Баланс терминала:" << endl;
         for (int i = 0; i < 5; i++) {
@@ -197,7 +199,7 @@ int main() {
                 if (answer == 0) {
                     fl = 1;
                     while (fl != 0) {
-                        cout << "Подтвердите транзакцию:" << endl << "0 - Да, произвести обмен" << endl << "1 - Нет, отменить обмен" << endl;
+                        cout << "Подтвердите транзакцию:" << endl << "1 - Да, произвести обмен" << endl << "2 - Нет, отменить обмен" << endl;
                         string approvement;
                         cin >> approvement;
                         if (approvement == "end") {
@@ -207,10 +209,10 @@ int main() {
                             answer = 2;
                             cout << endl << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl  << endl;
                             break;
-                        } else if (approvement == "1") {
+                        } else if (approvement == "2") {
                             fl = 0;
                             break;
-                        } else if (approvement == "0") {
+                        } else if (approvement == "1") {
                             user_balance[int_request_from - 1] -= sum;
                             term_balance[int_request_from - 1] += sum;
                             user_balance[allowed[int_request_from - 1][int_request_to - 1] - '0'] += int_number;
@@ -238,26 +240,27 @@ int main() {
                         usd_to_usdt *= 1 + x;
                     }
                     fl = 1;
+                    if (answer == 0) {
                     while (fl != 0) {
-                        cout << endl << "Начать новый обмен:" << endl << "0 - Да" << endl << "1 - Нет" << endl;
+                        cout << endl << "Начать новый обмен:" << endl << "1 - Да" << endl << "2 - Нет" << endl;
                         string ans;
                         cin >> ans;
                         if (ans == "end") {
                             answer = 1;
                             break;
                         } else if (ans == "again") {
-                            answer = 2;
+                            answer = 0;
                             cout << endl << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl  << endl;
-                            break;
-                        } else if (ans == "1") {
+                        } else if (ans == "2") {
                             answer = 1;
                             fl = 0;
                             break;
-                        } else if (ans == "0") {
+                        } else if (ans == "1") {
                             answer = 0;
                             fl = 0;
                         } else cout << "Неверный ввод, повторите попытку" << endl << endl;
-                    }
+                    } 
+                    } else if (answer == 2) answer = 0;
                 } else answer = 0;
             } else answer = 0;
         } else answer = 0;
